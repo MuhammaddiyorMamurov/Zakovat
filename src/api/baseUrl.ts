@@ -1,0 +1,1 @@
+export const BASE_URL = "https://json-api.uz/api/project/zakovat/"
