@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 
 interface Question{
     id:number
-    word:string
+    answer:string
     question:string
 }
 
@@ -34,19 +34,19 @@ function GameField() {
     }
   return (
     <div className="container py-10">
-        <h2 className="text-2xl font-bold text-center mb-10">{data && data?.questions[0].question}</h2>
+        <h2 className="text-2xl font-bold text-center mb-10">{data && data?.questions[1].question}</h2>
 
-        <div className="flex gap-5 items-center justify-center mb-20">
+        <div className="flex flex-wrap gap-x-5 gap-y-10 items-center justify-center mb-20">
             {data &&
-             data.questions[activeQuestions].word
+             data.questions[1].answer
             .toUpperCase()
             .split(" ")
-            .map((word,i)=>{
+            .map((answer,i)=>{
                 return(
-                    <div key={i}>{word.split("").map((letter,i)=> {
+                    <div className="flex" key={i}>{answer.split("").map((letter,i)=> {
                         return (
-                            <span className="border border-gray-400 py-4 px-4" key={i}>
-                                {letter}
+                            <span className="w-10 h-10 flex border border-gray-400 " key={i}>
+                                {false && letter}
                             </span>
                         )
                     })}</div>
