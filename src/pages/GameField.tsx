@@ -1,11 +1,13 @@
 import Answer from "@/components/Answer"
 import Keyboard from "@/components/Keyboard"
+import LoseModal from "@/components/LoseModal"
+import Modal from "@/components/Modal"
 import Loading from "@/components/ui/Loading"
 import useFetch from "@/hooks/useFetch"
 import { Heart } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { toast } from "react-toastify"
+import { Link, useParams } from "react-router-dom"
+
 
 
 interface Question{
@@ -29,20 +31,30 @@ function GameField() {
     const [heart, setHeart]= useState([
         {isLive:true},
         {isLive:true},
-        {},
     ])
+    const [openModal, setOpenModal] = useState(false);
+    const [isLoseModalOpen, setIsLoseModalOpen] = useState(false)
+
+
 
     useEffect(()=>{
         let timeOut:number
         if(data?.questions[activeQuestions].answer.toUpperCase().split("").every((l)=>letters.includes(l) || l == " "))
            {
             timeOut = setTimeout(()=>{
-                
-                    setLetters("")
-                     setActiveQuestions((prev)=>prev + 1)
+             if(data?.questions.length - 1 == activeQuestions) {
+                setLetters("")
+                setActiveQuestions(0)
+                setOpenModal(true)
+
+             } else{
+                setLetters("")
+                setActiveQuestions((prev)=>prev + 1)
+             } 
+                    
                 
             }, 2000)
-            toast.success("To'g'ri toptingiz, Keyingi")
+            
         }
 
         return ()=> clearTimeout(timeOut)
@@ -64,9 +76,37 @@ function GameField() {
         
 
     {data &&<Answer letters={letters} activeQuestions={activeQuestions} data={data}/>}
+
     <Keyboard setLetters={setLetters} letters={letters }
     answer={data?.questions[activeQuestions].answer}
-    setHeart={setHeart}/>
+    setHeart={setHeart}
+    heart={heart}
+    setLoseModal={setIsLoseModalOpen}
+    />
+
+<LoseModal 
+        open={isLoseModalOpen}
+        onRestart={() => {
+          setIsLoseModalOpen(false)
+          setHeart([{isLive: true}, {isLive: true}])
+          setLetters("")
+          setActiveQuestions(0)
+        }}
+      />
+
+    <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
+    <h2 className="text-xl font-bold text-center mb-4">Bosqish Yakunlandi</h2>
+    <p className="text-center mb-4">Yangi kategoriya tanlang</p>
+    <div className="flex justify-center items-center">
+    <button 
+      onClick={() => setOpenModal(false)} 
+      className="bg-green-700 text-white px-4 py-2 rounded-lg"
+    >6
+      <Link to={"/Categories"}>Back</Link>
+    </button>
+    </div>
+</Modal>
+
     </div>
   )
 }
