@@ -7,7 +7,8 @@ function Home() {
   const navigate = useNavigate()
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-[400px] rounded-lg px-6 py-10 border border-accent bg-accent flex flex-col gap-10">
+      <div className="w-full max-w-[400px] rounded-lg px-6 py-10 border border-accent bg-accent flex flex-col  gap-10">
+        <h2 className="text-3xl text-primary text-center tracking-[15px]">Zakovat</h2>
         <Button onClick={()=> navigate("/categories")} size={"xlg"}>
           <Play size={32} />
         </Button>
