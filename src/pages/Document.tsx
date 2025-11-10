@@ -13,7 +13,7 @@ interface Data {
 
 function Document() {
   const navigate = useNavigate()
-  const{data, error,loading} = useFetch<FetchType<Data>>("documentation")
+  const{data,loading} = useFetch<FetchType<Data>>("documentation")
   
   if(loading){
     return <Loading />
